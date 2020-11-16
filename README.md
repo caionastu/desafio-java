@@ -1,2 +1,2 @@
 # desafio-java
-Desafio interno de Java - TOTVS
+Repositório criado para realizar o desafio interno da TOTVS.
