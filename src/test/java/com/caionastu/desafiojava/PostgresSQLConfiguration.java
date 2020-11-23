@@ -10,15 +10,11 @@ import javax.sql.DataSource;
 @Component
 class PostgresSQLConfiguration {
 
-    private static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13-alpine");
-
-    static {
-        postgreSQLContainer.start();
-    }
+    private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13-alpine");
 
     @Bean
     public DataSource dataSource() {
-//       String jdbcURL = String.format("jdbc:postgresql://%s:%s/%s", postgreSQLContainer.getContainerIpAddress(), postgreSQLContainer.getFirstMappedPort(), postgreSQLContainer.getDatabaseName());
+        postgreSQLContainer.start();
         return DataSourceBuilder.create()
                 .url(postgreSQLContainer.getJdbcUrl())
                 .username(postgreSQLContainer.getUsername())

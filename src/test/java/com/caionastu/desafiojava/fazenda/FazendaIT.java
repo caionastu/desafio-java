@@ -1,16 +1,15 @@
 package com.caionastu.desafiojava.fazenda;
 
-import com.caionastu.desafiojava.ApplicationTests;
 import com.caionastu.desafiojava.fazenda.dominio.Fazenda;
-import org.junit.Test;
+import com.caionastu.desafiojava.fazenda.dominio.FazendaRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
@@ -18,15 +17,16 @@ import java.util.UUID;
 @Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
-@ContextConfiguration(classes = ApplicationTests.class)
-public class Teste {
+class FazendaIT {
 
     @Autowired
-    private EntityManager repository;
+    private FazendaRepository repository;
 
+    // TODO: 23/11/2020 Remover, apenas testando a configuração do teste integrado
     @Test
-    @DisplayName("Teste")
-    public void teste() {
-        repository.persist(new Fazenda(UUID.randomUUID(), "teste"));
+    @DisplayName("Configuração inicial teste integrado.")
+    void testeInicial() {
+        repository.save(new Fazenda(UUID.randomUUID(), "teste"));
+        Assertions.assertTrue(true);
     }
 }
