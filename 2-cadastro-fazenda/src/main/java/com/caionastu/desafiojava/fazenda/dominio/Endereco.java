@@ -1,16 +1,21 @@
 package com.caionastu.desafiojava.fazenda.dominio;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import javax.persistence.Embeddable;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Embeddable
 public class Endereco {
 
     private String cidade;
-    private String estado;
+    private SiglaEstados estado;
     private String logradouro;
+
+    public Endereco(@NonNull String logradouro, @NonNull String cidade, @NonNull SiglaEstados estado) {
+        this.cidade = cidade;
+        this.estado = estado;
+        this.logradouro = logradouro;
+    }
 }
