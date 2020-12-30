@@ -1,5 +1,6 @@
 package com.caionastu.desafiojava.fazenda;
 
+import com.caionastu.desafiojava.fazenda.api.NovaFazendaRequest;
 import com.caionastu.desafiojava.fazenda.dominio.Fazenda;
 import com.caionastu.desafiojava.fazenda.dominio.FazendaRepository;
 import com.caionastu.desafiojava.fazenda.dominio.SiglaEstados;
@@ -23,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 class FazendaIT {
 
-    private static String API_FAZENDAS = "/api/v1/fazendas";
+    private static final String API_FAZENDAS = "/api/v1/fazendas";
 
     @Autowired
     private FazendaRepository repository;
@@ -43,10 +44,40 @@ class FazendaIT {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        Map resultado = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Map.class);
+        Map<?, ?> resultado = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Map.class);
 
         List<Map<String, String>> items = (List<Map<String, String>>) resultado.get("items");
 
         assertThat(items).hasSize(4);
+    }
+
+    @Test
+    @DisplayName("Busca a fazenda pelo id.")
+    void buscaPeloId() throws Exception {
+        Fazenda fazenda = repository.save(Fazenda.builder().nome("Fazenda Sao Bento").cnpj("54483002000108").logradouro("Rodova Raposo Tavares").cidade("Palmital").estado(SiglaEstados.SP).build());
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(API_FAZENDAS + "/" + fazenda.getId()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        Fazenda resultado = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Fazenda.class);
+
+        assertThat(resultado.getId()).isEqualTo(fazenda.getId());
+        assertThat(resultado.getNome()).isEqualTo(fazenda.getNome());
+    }
+
+    @Test
+    @DisplayName("Busca a fazenda pelo nome.")
+    void buscaPeloNome() throws Exception {
+        Fazenda fazenda = repository.save(Fazenda.builder().nome("Fazenda Sao Lucas").cnpj("05620093000170").logradouro("Rodova Raposo Tavares").cidade("Palmital").estado(SiglaEstados.SP).build());
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(API_FAZENDAS + "/nome/" + fazenda.getNome()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        Fazenda resultado = new ObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Fazenda.class);
+
+        assertThat(resultado.getId()).isEqualTo(fazenda.getId());
+        assertThat(resultado.getNome()).isEqualTo(fazenda.getNome());
     }
 }

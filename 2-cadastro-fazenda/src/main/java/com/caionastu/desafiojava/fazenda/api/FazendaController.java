@@ -64,7 +64,7 @@ public class FazendaController {
         return ResponseEntity.ok(FazendaDTO.from(fazenda));
     }
 
-    @PostMapping(path = "/{id}")
+    @PutMapping(path = "/{id}")
     @ApiOperation(value = "Altera nome da fazenda.")
     public ResponseEntity<FazendaDTO> alterar(@Valid @RequestBody AlteraFazendaRequest request, @PathVariable UUID id) {
         Fazenda fazenda = repository.findById(id)
