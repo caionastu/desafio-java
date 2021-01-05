@@ -35,6 +35,7 @@ class FazendaIT {
     @Test
     @DisplayName("Busca todas as fazendas.")
     void buscaTodos() throws Exception {
+        repository.deleteAll();
         repository.save(Fazenda.builder().nome("Fazenda São João").cnpj("37569970000112").logradouro("Rodova Raposo Tavares").cidade("Palmital").estado(SiglaEstados.SP).build());
         repository.save(Fazenda.builder().nome("Fazenda São Joaquina").cnpj("53131916000147").logradouro("Rodova Raposo Tavares").cidade("Assis").estado(SiglaEstados.SP).build());
         repository.save(Fazenda.builder().nome("Fazenda São Mateus").cnpj("39657799000129").logradouro("Rodova Raposo Tavares").cidade("Manaus").estado(SiglaEstados.AM).build());
